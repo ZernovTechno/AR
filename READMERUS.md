@@ -1,6 +1,6 @@
 # Reality Fusion
 ## Управляется [Zernov](https://www.youtube.com/@zernovtech)
-[README.md на русском](./READMERUS.md)
+[English README.md](./README.md)
 
 ## Что это?
 Приложение смешанной реальности Unity, работающее только на телефоне Android.

@@ -1,6 +1,6 @@
 # Reality Fusion
 ## Managed by [Zernov](https://www.youtube.com/@zernovtech)
-[English README.md](./README.md)
+[Русский README.md](./READMERUS.md)
 
 ## About
 Unity mixed reality application that working only on a Android phone.

@@ -150,8 +150,10 @@ namespace Mediapipe.Unity
     ///   <see cref="Texture" /> that contains the current image.
     /// </returns>
     public abstract Texture GetCurrentTexture();
+        public abstract WebCamTexture GetCurrentWebCamTexture();
 
-    protected static TextureFormat TextureFormatFor(Texture texture)
+
+        protected static TextureFormat TextureFormatFor(Texture texture)
     {
       return GraphicsFormatUtility.GetTextureFormat(texture.graphicsFormat);
     }

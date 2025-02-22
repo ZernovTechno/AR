@@ -118,5 +118,7 @@ namespace Mediapipe.Unity
     }
 
     public override Texture GetCurrentTexture() => _videoPlayer != null ? _videoPlayer.texture : null;
-  }
+
+        public override WebCamTexture GetCurrentWebCamTexture() { return null; }
+    }
 }

@@ -15,13 +15,14 @@ namespace Mediapipe.Unity
     [SerializeField] public RawImage _screen;
     [SerializeField] public RawImage Left_image;
     [SerializeField] public RawImage Right_image;
+        [SerializeField] public QRReader QRR;
 
-    private ImageSource _imageSource;
+        private ImageSource _imageSource;
 
     public Texture texture
     {
       get => Left_image.texture;
-      set {Left_image.texture = value; Right_image.texture = value; }
+      set {Left_image.texture = value; Right_image.texture = value;}
     }
 
     public UnityEngine.Rect uvRect
@@ -37,6 +38,7 @@ namespace Mediapipe.Unity
       Rotate(_imageSource.rotation.Reverse());
       ResetUvRect(RunningMode.Async);
       texture = imageSource.GetCurrentTexture();
+      QRR.CameraImage = _imageSource.GetCurrentWebCamTexture();
     }
 
     public void Resize(int width, int height)

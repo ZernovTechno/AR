@@ -17,8 +17,7 @@ namespace Mediapipe.Unity.Sample.HandTracking
     [SerializeField] private MultiHandLandmarkListAnnotationController _handLandmarksAnnotationController;
     [SerializeField] private NormalizedRectListAnnotationController _handRectsFromLandmarksAnnotationController;
 
-    [SerializeField] private MainTrackingModule _trackingController;
-
+        [SerializeField] HandInstrument _HandInstrument;
     public HandTrackingGraph.ModelComplexity modelComplexity
     {
       get => graphRunner.modelComplexity;
@@ -72,15 +71,12 @@ namespace Mediapipe.Unity.Sample.HandTracking
       _handLandmarksAnnotationController.DrawNow(result.handLandmarks, result.handedness);
       // TODO: render HandWorldLandmarks annotations
       _handRectsFromLandmarksAnnotationController.DrawNow(result.handRectsFromLandmarks);
-      _trackingController.updateList(result.handLandmarks);
-      _trackingController.updateListRects(result.handRectsFromLandmarks);
     }
     private void OnHandLandmarksOutput(object stream, OutputStream<List<NormalizedLandmarkList>>.OutputEventArgs eventArgs)
     {
       var packet = eventArgs.packet;
       var value = packet == null ? default : packet.Get(NormalizedLandmarkList.Parser);
       _handLandmarksAnnotationController.DrawLater(value);
-      _trackingController.updateList(value);
     }
 
     private void OnHandRectsFromLandmarksOutput(object stream, OutputStream<List<NormalizedRect>>.OutputEventArgs eventArgs)
@@ -88,7 +84,7 @@ namespace Mediapipe.Unity.Sample.HandTracking
       var packet = eventArgs.packet;
       var value = packet == null ? default : packet.Get(NormalizedRect.Parser);
       _handRectsFromLandmarksAnnotationController.DrawLater(value);
-      _trackingController.updateListRects(value);
+      _HandInstrument.updateListRects(value);
     }
 
     private void OnHandednessOutput(object stream, OutputStream<List<ClassificationList>>.OutputEventArgs eventArgs)

@@ -22,7 +22,7 @@ public class CinemaScript : MonoBehaviour
     [SerializeField] private GameObject ScreenCaster;
 
     [SerializeField] private Mediapipe.Unity.Screen CameraScript;
-    [SerializeField] private QRReader ClientScript;
+    [SerializeField] private MJPEGStreamDecoder MJPEGSD;
 
     private Vector3 CameraPosition = new Vector3(4.5f, -40, -65);
     private Vector3 InterfacePosition = new Vector3(4.5f, -40, -65);
@@ -44,24 +44,24 @@ public class CinemaScript : MonoBehaviour
         if (Theater.activeSelf)
         {
             Theater.SetActive(false);
-            ClientScript.ScreenCastScreen = ScreenCastScreen;
+            MJPEGSD.OutTexture = ScreenCastScreen;
             ScreenCaster.SetActive(true);
             PlayerObject.transform.position = DefaultPosition;
             InterfaceObject.transform.position = DefaultPosition;
             LeftCanvas.gameObject.SetActive(true);
             RightCanvas.gameObject.SetActive(true);
-            TheaterController.gameObject.SetActive(false);
+            //TheaterController.gameObject.SetActive(false);
         }
         else
         {
             Theater.SetActive(true);
-            ClientScript.ScreenCastScreen = TheaterScreen;
+            MJPEGSD.OutTexture = TheaterScreen;
             ScreenCaster.SetActive(false);
             PlayerObject.transform.position = CameraPosition;
             InterfaceObject.transform.position = InterfacePosition;
             LeftCanvas.gameObject.SetActive(false);
             RightCanvas.gameObject.SetActive(false);
-            TheaterController.gameObject.SetActive(true);
+            //TheaterController.gameObject.SetActive(true);
         }
     }
 

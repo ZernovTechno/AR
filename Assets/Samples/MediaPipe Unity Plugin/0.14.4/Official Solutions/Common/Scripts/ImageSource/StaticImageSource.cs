@@ -112,6 +112,8 @@ namespace Mediapipe.Unity
       return _outputTexture;
     }
 
+    public override WebCamTexture GetCurrentWebCamTexture() { return null; }
+
     private ResolutionStruct GetDefaultResolution()
     {
       var resolutions = availableResolutions;

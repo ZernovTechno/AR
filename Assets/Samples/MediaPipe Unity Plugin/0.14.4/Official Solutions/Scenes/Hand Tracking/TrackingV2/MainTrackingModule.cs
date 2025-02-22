@@ -19,7 +19,6 @@ namespace Mediapipe.Unity.Sample.HandTracking
         [SerializeField] public RawImage _screen; // Var for main screen (Used for coordinates-converting
         [SerializeField] private GameObject _annotationLayer; // Var for layers with hand prefabs
         [SerializeField] private TextMeshProUGUI DebugText; // Debug text panel (Above the screen)
-
         [SerializeField] public GameObject PlayerObject;
 
         [SerializeField] public Canvas LastContactedMenu; // I dont know what the fuck is it
@@ -43,10 +42,8 @@ namespace Mediapipe.Unity.Sample.HandTracking
         [SerializeField] public KeyboardScript _KeyboardScript;
 
         public bool ActiveCenterPoint = true; // Is center point used for system 
-        public bool ActiveHandTracking = true; // Is hands used for system
-        public bool ActiveControllerTracking = false; // Is hands used for system
+        public bool ActiveHandTracking = false; // Is hands used for system
         public bool IsListActive = false; // Is landmarks list configured to work (and exist)
-        public bool ShowHandSkeleton = true;
         public bool UseInteractionWithBrowser = true;
 
         // Points
@@ -54,41 +51,24 @@ namespace Mediapipe.Unity.Sample.HandTracking
         public Vector3 HandFingerPoint1 = new Vector3(0, 0, 0);
         public Vector3 ThumbFingerPoint = new Vector3(0, 0, 0);
 
-        public void ShowHandSkeletonMethod(bool _ShowHandSkeleton)
-        {
-            ShowHandSkeleton = _ShowHandSkeleton;
-            if (!_ShowHandSkeleton) PlayerPrefs.SetInt("SkeletonState", 0);
-            else if (_ShowHandSkeleton) PlayerPrefs.SetInt("SkeletonState", 1);
-        }
-
         public void HandTracking()
         {
+            PlayerPrefs.SetInt("TrackingType", 0);
+            PlayerPrefs.Save();
             Debug.Log("Hand tracking is now set.");
             CenterPoint.gameObject.SetActive(false);
             ActiveCenterPoint = false;
             ActiveHandTracking = true;
-            ActiveControllerTracking = false;
-            PlayerPrefs.SetInt("TrackingType", 0);
         }
 
         public void CenterTracking()
         {
+            PlayerPrefs.SetInt("TrackingType", 1);
+            PlayerPrefs.Save();
             Debug.Log("Center tracking is now set.");
             CenterPoint.gameObject.SetActive(true);
             ActiveCenterPoint = true;
             ActiveHandTracking = false;
-            ActiveControllerTracking = false;
-            PlayerPrefs.SetInt("TrackingType", 1);
-        }
-
-        public void ControllerTracking()
-        {
-            Debug.Log("Controller tracking is now set.");
-            CenterPoint.gameObject.SetActive(true);
-            ActiveCenterPoint = false;
-            ActiveHandTracking = false;
-            ActiveControllerTracking = true;
-            PlayerPrefs.SetInt("TrackingType", 2);
         }
 
         public void Open_Menu()
@@ -101,7 +81,6 @@ namespace Mediapipe.Unity.Sample.HandTracking
         public void Start()
         {
             Debug.Log("Tracking machine started!");
-            InvokeRepeating("Update_Every_500ms", 2, 0.5f);
         }
 
         public void ChangePositionOfWindow()
@@ -126,28 +105,10 @@ namespace Mediapipe.Unity.Sample.HandTracking
             }
         }
 
-        private void CheckHandSize() // Check, if hand small (Maybe its a leg?)
-        {
-            if (IsListActive && ShowHandSkeleton)
-            {
-                float HandSize = (_currentRectsLists[0].Height * _currentRectsLists[0].Width);
-                Debug.Log(HandSize);
-                if (HandSize < 0.10)
-                {
-                    IsListActive = false;
-                    _annotationLayer.gameObject.SetActive(false);
-                }
-                else _annotationLayer.gameObject.SetActive(true);
-                _annotationLayer.transform.localPosition = new Vector3(0, 0, -(520+HandSize*50));
-            }
-            else _annotationLayer.gameObject.SetActive(false);
-        }
-
         // Update is called once per frame
-        void Update_Every_500ms()
+        void Update()
         {
             IsListActive = ((_currentHandLandmarkLists != null) && (ActiveHandTracking)); // Check if Landmarks list exists and not null, and hand tracking is active.
-            CheckHandSize();
             SetCoordinates();
         }
 

@@ -229,6 +229,7 @@ namespace Mediapipe.Unity
     }
 
     public override Texture GetCurrentTexture() => webCamTexture;
+    public override WebCamTexture GetCurrentWebCamTexture() => webCamTexture;
 
     private ResolutionStruct GetDefaultResolution()
     {
